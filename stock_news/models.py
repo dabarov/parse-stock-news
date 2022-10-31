@@ -2,7 +2,7 @@ from django.db import models
 
 
 class StockNews(models.Model):
-    category = models.CharField(max_length=20)
+    category = models.CharField(max_length=255)
     published_time = models.DateTimeField()
     headline = models.CharField(max_length=255)
     image = models.URLField(blank=True)

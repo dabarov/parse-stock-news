@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -15,14 +14,14 @@ class Migration(migrations.Migration):
             name='StockNews',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('category', models.CharField(max_length=20)),
+                ('category', models.CharField(max_length=255)),
                 ('published_time', models.DateTimeField()),
                 ('headline', models.CharField(max_length=255)),
-                ('image', models.URLField(blank=True)),
+                ('image', models.URLField(max_length=511, blank=True)),
                 ('related', models.CharField(max_length=255)),
                 ('source', models.CharField(max_length=255)),
                 ('summary', models.TextField()),
-                ('url', models.URLField(blank=True)),
+                ('url', models.URLField(max_length=511, blank=True)),
             ],
         ),
     ]

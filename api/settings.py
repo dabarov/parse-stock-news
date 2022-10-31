@@ -128,7 +128,7 @@ CELERY_RESULT_BACKEND = "redis://redis:6379/0"
 
 CELERY_BEAT_SCHEDULE = {
     'fetch-ticker-news-every-hour': {
-        'task': 'stock_news.tasks.fetch_ticker_news',
-        'schedule': 30.0,
+        'task': 'stock_news.tasks.fetch_tickers_news',
+        'schedule': 3600.0,
     },
 }

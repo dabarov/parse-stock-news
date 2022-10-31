@@ -6,4 +6,4 @@ from .models import StockNews
 class StockNewsSerializer(serializers.ModelSerializer):
     class Meta:
         model = StockNews
-        fields = ()
+        fields = '__all__'
