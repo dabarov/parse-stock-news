@@ -10,11 +10,13 @@ POSTGRES_DB=
 POSTGRES_USER=
 POSTGRES_PASSWORD=
 SECRET_KEY=
+DEBUG=
 FIN_HUB_KEY=
 ```
 
 Where `POSTGRES_***` is a values for db initialization and connection to it.
 `SECRET_KEY` is a django secret key. `FIN_HUB_KEY` is an api key to interact with `Finnhub.io` api.
+`DEBUG` is a debug status of the project.
 
 3. Run the following command to initialize the database via applying migrations.
 
