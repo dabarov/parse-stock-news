@@ -1,17 +1,11 @@
-import os
 from datetime import datetime
 
-import finnhub
 import requests
 from celery import shared_task
 from django.utils.timezone import make_aware
-from rest_framework import status
 
+from stock_news.defaults import TICKERS_TO_PARSE, TODAY, FINNHUB_CLIENT
 from stock_news.models import StockNews
-
-TICKERS_TO_PARSE = ["TSLA", "FB", "AMZN", "TWTR", "NFLX"]
-TODAY = datetime.today().strftime('%Y-%m-%d')
-finnhub_client = finnhub.Client(api_key=os.getenv("FIN_HUB_KEY"))
 
 
 @shared_task()
@@ -21,14 +15,14 @@ def fetch_tickers_news():
 
 
 def fetch_ticker_news(ticker):
-    news_list = finnhub_client.company_news(ticker, _from=TODAY, to=TODAY)
+    news_list = FINNHUB_CLIENT.company_news(ticker, _from=TODAY, to=TODAY)
     for news in news_list:
         pk = news.pop("id")
         published_time_unix_format = news.pop("datetime")
         published_time = make_aware(datetime.fromtimestamp(published_time_unix_format))
         news["published_time"] = published_time
         StockNews.objects.update_or_create(id=pk, defaults=news)
-    if status.is_success(email_newsletter(news_list, ticker)):
+    if email_newsletter(news_list, ticker):
         return "SUCCESS"
     else:
         return "FAILURE"
@@ -41,4 +35,4 @@ def email_newsletter(news_list, ticker):
         "news": news_headlines
     }
     response = requests.post(url="http://host.docker.internal:8002/notifications/email-fetched-news/", json=body)
-    return response.status_code
+    return response.ok
